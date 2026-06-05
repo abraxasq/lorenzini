@@ -1,5 +1,7 @@
 title: lorenzini
 description: Notes on craft, market, and the examined life.
+url: "https://abraxasq.github.io"
+baseurl: "/lorenzini"
 theme: minima
 future: true
 
