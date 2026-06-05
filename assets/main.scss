@@ -1,0 +1,174 @@
+// ── IGDS: Override minima !default variables before import ───────────────────
+
+$base-font-family:  "Source Serif 4", Georgia, "Times New Roman", serif;
+$base-font-size:    16px;
+$base-line-height:  1.55;
+$text-color:        #2C2C2C;   // --ink-soft
+$background-color:  #FAF7F2;   // --paper-white
+$brand-color:       #8B6F3F;   // --data-secondary (ochre) — links
+$grey-color:        #6B6660;   // --ink-muted
+$grey-color-light:  #D8D2C5;   // --paper-rule
+$grey-color-dark:   #2C2C2C;   // --ink-soft
+$spacing-unit:      32px;
+
+@import "minima";
+
+// ── IGDS CSS Custom Properties ────────────────────────────────────────────────
+
+:root {
+  --ink-black:   #1A1A1A;
+  --ink-soft:    #2C2C2C;
+  --ink-muted:   #6B6660;
+  --ink-light:   #A8A298;
+  --paper-white: #FAF7F2;
+  --paper-cream: #F4EFE6;
+  --paper-rule:  #D8D2C5;
+  --paper-line:  #E8E2D5;
+}
+
+// ── Type families ─────────────────────────────────────────────────────────────
+
+$display-font: "Playfair Display", Georgia, "Times New Roman", serif;
+$mono-font:    "JetBrains Mono", "Courier New", monospace;
+
+// ── Site header ───────────────────────────────────────────────────────────────
+
+.site-header {
+  background-color: var(--paper-white);
+  border-top: none;
+  border-bottom: 2px solid var(--ink-black);
+  min-height: 52px;
+}
+
+.site-title,
+.site-title:visited {
+  font-family: $display-font;
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: var(--ink-black);
+}
+
+.site-nav .page-link {
+  font-family: $mono-font;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+
+  &:hover {
+    color: var(--ink-black);
+    text-decoration: none;
+  }
+}
+
+// ── Page heading ──────────────────────────────────────────────────────────────
+
+.page-heading {
+  font-family: $display-font;
+  font-weight: 700;
+  font-size: 1.75rem;
+  letter-spacing: -0.015em;
+  color: var(--ink-black);
+  border-bottom: 2px solid var(--ink-black);
+  padding-bottom: 10px;
+  margin-bottom: 24px;
+}
+
+// ── Post list ─────────────────────────────────────────────────────────────────
+
+.post-list {
+  > li {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--paper-rule);
+
+    h3 {
+      display: inline;
+      font-family: $display-font;
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+}
+
+.post-meta {
+  font-family: $mono-font;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-right: 10px;
+}
+
+.post-link {
+  color: var(--ink-black);
+
+  &:hover {
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+}
+
+// ── Post content ──────────────────────────────────────────────────────────────
+
+.post-title {
+  font-family: $display-font;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink-black);
+}
+
+.post-content {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $display-font;
+    color: var(--ink-black);
+    letter-spacing: -0.01em;
+  }
+
+  p, li {
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  // Rule-weight borders for blockquotes
+  blockquote {
+    border-left: 2px solid var(--ink-black);
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  // Tabular code
+  pre, code {
+    font-family: $mono-font;
+    font-size: 0.8125rem;
+    background: var(--paper-cream);
+    border: 1px solid var(--paper-rule);
+    border-radius: 2px;
+  }
+}
+
+// ── Footer ────────────────────────────────────────────────────────────────────
+
+.site-footer {
+  background-color: var(--paper-cream);
+  border-top: 1px solid var(--paper-rule);
+  color: var(--ink-muted);
+
+  .footer-heading {
+    font-family: $mono-font;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  a {
+    color: var(--ink-soft);
+
+    &:hover {
+      color: var(--ink-black);
+    }
+  }
+}

@@ -1,0 +1,16 @@
+title: lorenzini
+description: Notes on craft, market, and the examined life.
+theme: minima
+future: true
+
+plugins:
+  - jekyll-feed
+
+author:
+  name: abraxasQ
+
+header_pages: []
+
+exclude:
+  - README.md
+  - "*.sh"

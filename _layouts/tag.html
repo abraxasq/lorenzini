@@ -1,0 +1,21 @@
+---
+layout: default
+---
+
+<div class="home">
+  <h1 class="page-heading">{{ page.title }}</h1>
+
+  {% assign tagged_posts = site.posts | where_exp: "post", "post.tags contains page.tag" %}
+  {% if tagged_posts %}
+    <ul class="post-list">
+      {% for post in tagged_posts %}
+        <li>
+          <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+          <h3><a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No posts yet.</p>
+  {% endif %}
+</div>
