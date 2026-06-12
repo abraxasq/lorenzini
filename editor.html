@@ -1,0 +1,217 @@
+---
+layout: null
+permalink: /editor/
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Editor · Lorenzini</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --panel: #ffffff;
+      --ink: #1d1d1f;
+      --muted: #6b6b70;
+      --line: #e4e2db;
+      --accent: #3b5bdb;
+      --accent-ink: #ffffff;
+      --danger: #c0392b;
+      --ok: #2b8a3e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1.25rem;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    header h1 { font-size: 1.05rem; margin: 0; font-weight: 650; }
+    header h1 small { color: var(--muted); font-weight: 400; }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 1.25rem; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+      margin-bottom: 1.1rem;
+    }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.3rem; font-weight: 600; letter-spacing: 0.01em; }
+    input[type=text], input[type=password], input[type=date], select {
+      width: 100%;
+      padding: 0.55rem 0.65rem;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--ink);
+    }
+    input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+    .row { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+    .row > div { flex: 1 1 200px; }
+    .field { margin-bottom: 0.85rem; }
+    button {
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      padding: 0.5rem 0.95rem;
+      border-radius: 7px;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    button:hover { background: #f2f0ea; }
+    button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    button.primary:hover { filter: brightness(1.07); }
+    button.ghost { background: transparent; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btnrow { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+    .spacer { flex: 1; }
+    .hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+    .hint a { color: var(--accent); }
+    .tags-checks { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+    .tags-checks label { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 500; color: var(--ink); margin: 0; cursor: pointer; }
+    .tags-checks input { width: auto; }
+    #toast {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(2rem);
+      background: #1d1d1f;
+      color: #fff;
+      padding: 0.7rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 50;
+      max-width: 90vw;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.ok { background: var(--ok); }
+    #toast.err { background: var(--danger); }
+    .hidden { display: none !important; }
+    .muted { color: var(--muted); }
+    code { background: #f0eee8; padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.85em; }
+    .CodeMirror, .editor-toolbar { border-radius: 0 0 7px 7px; }
+    .editor-toolbar { border-radius: 7px 7px 0 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Lorenzini <small>· Editor</small></h1>
+    <div class="btnrow">
+      <span id="userBadge" class="muted" style="font-size:0.85rem;"></span>
+      <button id="logoutBtn" class="ghost hidden">토큰 잊기</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- Token gate -->
+    <section id="gate" class="panel">
+      <div class="field">
+        <label for="patInput">GitHub Personal Access Token (fine-grained)</label>
+        <input type="password" id="patInput" placeholder="github_pat_..." autocomplete="off" spellcheck="false">
+      </div>
+      <div class="btnrow">
+        <button id="saveTokenBtn" class="primary">연결</button>
+        <label style="display:inline-flex;align-items:center;gap:0.35rem;margin:0;font-weight:500;color:var(--ink);">
+          <input type="checkbox" id="rememberToken" checked style="width:auto;"> 이 브라우저에 저장
+        </label>
+      </div>
+      <p class="hint">
+        <strong>fine-grained PAT</strong>을 발급하세요 — Resource owner: <code>abraxasq</code>,
+        Repository access: <code>lorenzini</code>만 선택, Permissions: <code>Contents → Read and write</code>.
+        토큰은 이 브라우저에만 저장되며 저장소에 커밋되지 않습니다.
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">토큰 발급 →</a>
+      </p>
+    </section>
+
+    <!-- Editor -->
+    <section id="app" class="hidden">
+      <div class="panel">
+        <div class="row">
+          <div>
+            <label for="fileSelect">기존 글 편집</label>
+            <select id="fileSelect">
+              <option value="">— 포스트를 선택하세요 —</option>
+            </select>
+          </div>
+          <div style="flex:0 0 auto;display:flex;align-items:flex-end;">
+            <button id="newPostBtn">＋ 새 글</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="field">
+          <label for="titleInput">제목</label>
+          <input type="text" id="titleInput" placeholder="The Cartographer's Method">
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="dateInput">날짜</label>
+            <input type="date" id="dateInput">
+          </div>
+          <div class="field">
+            <label>태그</label>
+            <div class="tags-checks" id="tagChecks"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>파일명 <span class="muted">(새 글은 자동 생성)</span></label>
+          <input type="text" id="filenameInput" placeholder="2026-06-12-my-post.md" spellcheck="false">
+        </div>
+      </div>
+
+      <div class="panel">
+        <label>본문 (Markdown)</label>
+        <textarea id="mdEditor"></textarea>
+      </div>
+
+      <div class="panel">
+        <div class="btnrow">
+          <button id="saveBtn" class="primary">GitHub에 저장</button>
+          <span id="status" class="muted" style="font-size:0.85rem;"></span>
+          <span class="spacer"></span>
+          <button id="resetBtn" class="ghost">초기화</button>
+        </div>
+        <p class="hint">저장하면 <code>main</code> 브랜치에 커밋되고 GitHub Pages가 약 1분 내 사이트를 재빌드합니다.</p>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <script>
+    window.LORENZINI_EDITOR = {
+      owner: "abraxasq",
+      repo: "lorenzini",
+      branch: "main",
+      dir: "_posts",
+      tags: ["explore", "manage", "insights", "market", "dashboard"]
+    };
+  </script>
+  <script src="{{ '/assets/editor.js' | relative_url }}"></script>
+</body>
+</html>
