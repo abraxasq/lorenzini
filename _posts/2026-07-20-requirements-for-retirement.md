@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Requirements for retirement"
-date: 2026-07-20
+date: 2026-07-17
 tags: [manage]
 ---
 
@@ -33,3 +33,4 @@ tags: [manage]
 [] 만 55세 이상
 [] 비근로 현금흐름이 생활비의 1.5배 이상
 [] 유동 자산이 생활비 36개월치 이상
+[] 테스트
